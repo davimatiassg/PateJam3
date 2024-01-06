@@ -18,10 +18,12 @@ public class GameDataManager
 
     //Delegates Declaration
     public delegate void OnCollectProp(IGrabable value);
-    public delegate void OnDestroyProp(IDestructable prop);
+    public delegate void OnDestroyProp(IDestructable value);
+    public delegate void OnGainScore(IValuable value);
 
 
     //Event delegates
     public OnCollectProp onCollectProp;
     public OnDestroyProp onDestroyProp;
+    public OnGainScore onGainScore;
 }

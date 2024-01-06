@@ -31,7 +31,8 @@ public class PersonBehaviour : MonoBehaviour {
         currentMoviment = randomMove;
     }
 
-    private void Update() {        
+    private void Update() {       
+        if(isFarFromPlayer(playerTransform.position, transform.position)) { Destroy(this.gameObject); }
         if(safe && isSeeingPlayer(playerTransform.position, transform.position))
         {
             safe = false;
@@ -46,6 +47,11 @@ public class PersonBehaviour : MonoBehaviour {
     private bool isSeeingPlayer(Vector3 p, Vector3 pp)
     {
         return (p.x - pp.x)*(p.x - pp.x) + (p.z - pp.z)*(p.z - pp.z) <= fearRange;
+    }
+
+    private bool isFarFromPlayer(Vector3 p, Vector3 pp)
+    {
+        return (p.x - pp.x)*(p.x - pp.x) + (p.z - pp.z)*(p.z - pp.z) > 625f;
     }
 
     public void randomMove()
@@ -73,12 +79,14 @@ public class PersonBehaviour : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.tag.Equals("Player"))
+        string otherTag = other.gameObject.tag;
+        if(otherTag.Equals("Player"))
         {
             GameDataManager.Instance.onCollectProp?.Invoke(PersonData);
+            GameDataManager.Instance.onGainScore?.Invoke(PersonData);
             Destroy(this.gameObject);
         }
-        if(other.gameObject.tag.Equals("Player"))
+        else if(otherTag.Equals("Enemy"))
         {
             Destroy(this.gameObject);
         }
