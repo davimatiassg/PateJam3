@@ -7,5 +7,5 @@ public class Building : ScriptableObject {
 
     public int scoreValue;
     public Mesh model;
-    //TODO
+    // TODO
 }
