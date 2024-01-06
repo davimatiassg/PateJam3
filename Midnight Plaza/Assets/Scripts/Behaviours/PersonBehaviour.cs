@@ -4,20 +4,18 @@ using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
 public class PersonBehaviour : MonoBehaviour {
-
-    
-
     [SerializeField] private float fearRange;
-    private bool safe = true;
-    private float speed;
+    [SerializeField] public Person personData;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator anim;
-    [SerializeField] public Person personData;
+    
+    private float speed;
     private Transform playerTransform;
-    private delegate void Moviment();
-    private Moviment currentMoviment;
     private Vector3 currentDirection;
 
+    private delegate void Moviment();
+    private Moviment currentMoviment;
+    private bool safe = true;
     public Person PersonData{ 
         get { return personData; } 
         set{
@@ -31,7 +29,6 @@ public class PersonBehaviour : MonoBehaviour {
         this.PersonData = this.personData; 
         playerTransform = GameObject.FindWithTag("Player").transform;
         currentMoviment = randomMove;
-        fearRange = fearRange*fearRange;
     }
 
     private void Update() {        
@@ -76,9 +73,14 @@ public class PersonBehaviour : MonoBehaviour {
 
     public void OnTriggerEnter(Collider other) 
     {
-        if(other.gameObject.transform == playerTransform)
+        if(other.gameObject.tag.Equals("Player"))
         {
-            GameDataManager.onCollectProp(PersonData);
+            GameDataManager.Instance.onCollectProp?.Invoke(PersonData);
+            Destroy(this.gameObject);
+        }
+        if(other.gameObject.tag.Equals("Player"))
+        {
+            Destroy(this.gameObject);
         }
     }
     

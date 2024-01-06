@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class GameDataManager : MonoBehaviour
+public class GameDataManager
 {
     //Singleton (probably wont be necessary)
     private static GameDataManager instance;
     public static GameDataManager Instance
     {
-        get{ if(instance == null) { instance = new GameDataManager(); } return Instance; }
+        get{ 
+            if(instance == null) { instance = new GameDataManager(); } 
+            return instance; 
+        }
         private set { instance = value; }
     }
 
@@ -18,7 +21,7 @@ public class GameDataManager : MonoBehaviour
     public delegate void OnDestroyProp(IDestructable prop);
 
 
-    //Static delegates
-    public static OnCollectProp onCollectProp;
-    public static OnDestroyProp onDestroyProp;
+    //Event delegates
+    public OnCollectProp onCollectProp;
+    public OnDestroyProp onDestroyProp;
 }
