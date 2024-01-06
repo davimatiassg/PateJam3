@@ -18,6 +18,13 @@ public class CityBuilder : MonoBehaviour
     
     private bool create = true;
 
+    private struct int2 {
+        public int w,h;
+        public int2(int w, int h) {
+            this.w = w;this.h = h;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -57,23 +64,18 @@ public class CityBuilder : MonoBehaviour
     }
 
     void BuildAt(int i, int j) {
-
         if (grid[i, j] >= 0 && Random.Range(0f, 1f) < density) {
-            GameObject sec = getRandomSection();
-            CreateSection(i, j, sec);
-            blockSectionsArea(i, j, sec);
+            tryToPlaceSection(i, j, getRandomSection());
         }
     }
 
-    // preventing future buildings from being built inside that sector
-    void blockSectionsArea(int i, int j, GameObject sec) {
-        Transform secT = sec.transform;
+    void tryToPlaceSection(int i, int j, GameObject sec) {
+        int2 sectionArea = getSectionArea(sec);
 
-        Vector2 blockArea = new Vector2(
-        secT.Find("p2").position.x - secT.Find("p1").position.x, 
-        secT.Find("p2").position.z - secT.Find("p1").position.z);
-
-        blockGrid(i, j, (int) (blockArea.x/spacing), (int) (blockArea.y/spacing));
+        if (checkGrid(i, j, sectionArea.w, sectionArea.h)) {
+            CreateSection(i, j, sec);
+            blockGrid(i, j, sectionArea.w, sectionArea.h);
+        }
     }
 
     // prevents buildings from being built in an area of (x, y) beginning from (i, j)
@@ -84,10 +86,31 @@ public class CityBuilder : MonoBehaviour
         }}
     }
 
+    // return whether area of grid is free
+    bool checkGrid(int i, int j, int x, int y) {
+        for (int u = 0;u < x;u ++) {
+        for (int v = 0;v < y;v ++) {
+            if (i + u < w && j + v < h && 
+                grid[i + u, j + v] < 0) {return false;}
+        }}
+
+        return true;
+    }
+
     GameObject getRandomSection() {
 
         int i = Random.Range(0, sectionData.sections.Count);
         return sectionData.sections[i];
+    }
+
+    int2 getSectionArea(GameObject sec) {
+        Transform secT = sec.transform;
+
+        Vector2 blockArea = new Vector2(
+        secT.Find("p2").position.x - secT.Find("p1").position.x, 
+        secT.Find("p2").position.z - secT.Find("p1").position.z);
+
+        return new int2((int) (blockArea.x/spacing), (int) (blockArea.y/spacing));
     }
 
     // x, z
