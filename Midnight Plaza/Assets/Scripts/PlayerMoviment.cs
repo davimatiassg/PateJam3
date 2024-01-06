@@ -13,7 +13,7 @@ public class PlayerMoviment : MonoBehaviour
     private Vector3 Direction
     {
         get{ return this.direction; }
-        set{ this.direction = value; if(value != Vector3.zero) { changeFacingDirection();  } }
+        set{ this.direction = value; if(Vector3.Distance(value, Vector3.zero) > 0.5f) { changeFacingDirection();  } }
     }
 
     private Rigidbody rigb;

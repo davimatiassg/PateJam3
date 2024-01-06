@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 public interface IDestructable
 {
-    public int getDestroyed();
+    public void getDestroyed();
 }

@@ -1,20 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
-[CreateAssetMenu(fileName = "Person", menuName = "Person/new Person", order = 0)]
-public class Person : ScriptableObject, IDestructable, IGrabable {
-    public Texture2D sprite;
+[CreateAssetMenu(fileName = "Person", menuName = "Entities/new Person", order = 0)]
+public class Person : ScriptableObject, IValuable, IGrabable, IDestructable {
+    public Sprite sprite;
+    public float speed;
+    public Sprite worriedSprite;
     
-    public int ScoreValue { get; set; }
+    [SerializeField] private int scoreValue;
+    public int ScoreValue { get {return this.scoreValue;}  set{this.scoreValue = value;} }
 
-    public int getDestroyed()
-    {
-        return 0;
-    }
+    public void getGrabed(){return;}
+    public void getDestroyed(){return;}
 
-    public void getGrabed()
-    {
-        return;
+    #if UNITY_EDITOR
+
+    [CustomEditor(typeof(Person))]
+    public class CardEditor : Editor
+    {       
+        public override Texture2D RenderStaticPreview(string assetPath, UnityEngine.Object[] subAssets, int width, int height)
+        {
+            Person person = target as Person;
+            Texture2D newIcon = new Texture2D(width, height);
+            if (person.sprite != null) {
+                EditorUtility.CopySerialized(person.sprite.texture, newIcon);
+                return newIcon;
+            }
+            return base.RenderStaticPreview(assetPath, subAssets, width, height);
+        }
     }
+    #endif
 }
