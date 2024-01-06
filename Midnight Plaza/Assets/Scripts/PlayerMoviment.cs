@@ -40,6 +40,5 @@ public class PlayerMoviment : MonoBehaviour
         Quaternion lookDir = new Quaternion();
         lookDir.SetLookRotation(this.direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, 10f);
-        // = lookDir;
     }
 }
