@@ -2,7 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Scenary Prop", menuName = "Person/new Prop", order = 0)]
+public class PropBehaviour : MonoBehaviour {
+   
+}
+
+
+[CreateAssetMenu(fileName = "Scenary Prop", menuName = "Entities/new Scenary Prop", order = 0)]
 public class Prop : ScriptableObject, IValuable {
-   public int ScoreValue { get; set; }
+   [SerializeField] private int scoreValue;
+    public int ScoreValue { get {return this.scoreValue;}  set{this.scoreValue = value;} }
 }
