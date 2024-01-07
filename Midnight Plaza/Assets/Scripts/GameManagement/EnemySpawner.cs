@@ -66,6 +66,8 @@ public class EnemySpawner : MonoBehaviour
             spawnEnemy(new Vector3(position.x + r.x, 1, position.z + r.y));
         }
     }
+
+    // Creating instance
     public void spawnEnemy(Vector3 position)
     {
         if(enemies.Count == 0) return;

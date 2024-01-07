@@ -10,6 +10,7 @@ public class CityBuilder : MonoBehaviour
     [SerializeField] private GameObject tasukete;
     [SerializeField] private GameObject building;
     [SerializeField] private Transform buildings;
+    private Transform player;
 
     private int w, h;
     private Transform p1, p2;
@@ -105,6 +106,8 @@ public class CityBuilder : MonoBehaviour
 
         return new int2((int) (blockArea.x/spacing), (int) (blockArea.y/spacing));
     }
+
+    // Instantiation methods
 
     // x, z
     void CreateBuilding(int i, int j) {
