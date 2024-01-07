@@ -12,6 +12,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     [SerializeField] private int size;
     [SerializeField] private Vector3 direction;
 
+    private bool freeze = false;
+
     private Animator anim;
     private Vector3 Direction
     {
@@ -27,11 +29,11 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     }
 
     private void FixedUpdate() {
-        rigb.velocity = Direction*speed*Time.fixedDeltaTime;
+        if (!freeze) rigb.velocity = Direction*speed*Time.fixedDeltaTime;
     }
     private void Update()
     {
-        Direction = getAxisControl();
+        if (!freeze) Direction = getAxisControl();
     }
 
     private Vector3 getAxisControl()
@@ -61,5 +63,9 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
 
     public Vector3 GetVelocity() {
         return rigb.velocity;
+    }
+
+    public void ToggleFreeze() {
+        freeze = !freeze;
     }
 }

@@ -36,8 +36,8 @@ public class CityBuilder : MonoBehaviour
         p2 = transform.Find("p2").transform;
 
         // calculating amount of buildings allowed horizontally and vertically
-        w = (int) (Mathf.Floor((p2.position.x - p1.position.x) / spacing));
-        h = (int) (Mathf.Floor((p2.position.z - p1.position.z) / spacing));
+        w = (int) (Mathf.Floor((p2.localPosition.x - p1.localPosition.x) / spacing));
+        h = (int) (Mathf.Floor((p2.localPosition.z - p1.localPosition.z) / spacing));
 
         // Generating Grid
         grid = new int[w, h];
@@ -49,11 +49,11 @@ public class CityBuilder : MonoBehaviour
     {
         if (create) {
             BuildCity();
-            transform.localEulerAngles = buildings.transform.eulerAngles;
+            //transform.localEulerAngles = buildings.transform.eulerAngles;
             create = false;
         }
 
-        if (Vector3.Distance(transform.position, player.position) > 30f) {
+        if (Vector3.Distance((p1.position + p2.position) * 0.5f, player.position) > 30f) {
             transform.Find("buildings").gameObject.SetActive(false);
         }
         else {
@@ -139,16 +139,5 @@ public class CityBuilder : MonoBehaviour
 
         GameObject b = Instantiate(sec, buildings);
         b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, ledge, top + (j + 0f) * spacing);
-    }
-
-    // x, z
-    void CreateTasukete(int i, int j) {
-
-        Vector3 p1c = p1.localPosition, p2c = p2.localPosition;
-        float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
-
-        GameObject b = Instantiate(tasukete, buildings);
-        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, ledge, top + (j + 0f) * spacing);
-
     }
 }
