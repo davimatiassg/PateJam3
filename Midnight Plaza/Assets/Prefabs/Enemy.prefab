@@ -692,10 +692,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hp: 10
-  spd: 1
+  speed: 1
   loadAtk: 0.5
-  minChaseRange: 1
-  rangeSee: 8
+  minChaseRange: 0.1
+  rangeSee: 12
+  enemyData: {fileID: 11400000, guid: 2cc475b7d2fcab04e9516e9a95fe4b2f, type: 2}
 --- !u!54 &5179334905339571993
 Rigidbody:
   m_ObjectHideFlags: 0

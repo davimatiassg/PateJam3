@@ -2,13 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour, IHittable
+public class EnemyBehaviour : MonoBehaviour, IHittable
 {
     public float hp = 10;
-    public float spd = 1f;
+    public float speed = 1f;
     public float loadAtk = 0.5f;
     public float minChaseRange = 1f;
     public float rangeSee = 4f;
+
+    [SerializeField] public Enemy enemyData;
 
     private Transform player;
     private Transform fred; // point in the object to be used as a destination
@@ -17,12 +19,21 @@ public class EnemyAI : MonoBehaviour, IHittable
 
     private float rAtk = 0f;
     private bool attacking = false;
-    private float friction = 1f;
-    private float acel = 2f;
+    private float friction = 10f;
+    private float acel = 20f;
+
+    public Enemy EnemyData{ 
+        get { return enemyData; } 
+        set{
+            this.enemyData = value;
+            this.speed = enemyData.speed;
+        } 
+    }
 
     // Start is called before the first frame update
     void Start()
     {
+        this.EnemyData = this.enemyData; 
         rb = gameObject.GetComponent<Rigidbody>();
         fred = transform.Find("fred");
         player = GameObject.FindWithTag("Player").transform;
@@ -116,33 +127,30 @@ public class EnemyAI : MonoBehaviour, IHittable
     //
     void MoveTo(Vector3 pos) {
         var dif = pos - transform.position;
-        Vector3 dir = new Vector3(dif.x, 0, dif.z);
+        Vector3 dir = (new Vector3(dif.x, 0, dif.z)).normalized;
 
         rb.velocity += dir * acel * Time.deltaTime;
 
-        AdjustSpd();
-        FaceCorrectDir();
+        AdjustSpeed();
+        Turn();
     }
 
     // makes the enemy face the moving direction
-    void FaceCorrectDir() {
-        transform.eulerAngles = new Vector3(
-            0, 
-            Vector3.Angle(new Vector3(1, 0, 0), rb.velocity.normalized),
-            0
-        );
+    void Turn() {
+        Vector3 v = Quaternion.Euler(0, -90, 0) * (new Vector3(rb.velocity.x, 0, rb.velocity.z).normalized);
+        transform.LookAt(transform.position + v);
     }
 
     // applies friction and limits speed
-    void AdjustSpd() {
+    void AdjustSpeed() {
         Vector3 dir = rb.velocity.normalized;
 
         // Friction
         rb.velocity -= dir * (rb.velocity.magnitude > friction ? friction : 0) * Time.deltaTime;
 
-        // Capping spd
-        if (rb.velocity.magnitude > spd) {
-            rb.velocity = dir * spd;
+        // Capping Speed
+        if (rb.velocity.magnitude > speed) {
+            rb.velocity = dir * speed;
         }
     }
 
@@ -151,8 +159,6 @@ public class EnemyAI : MonoBehaviour, IHittable
     {
         Vector3 dir = fred.localPosition;
         MoveTo(transform.position + dir);
-        //transform.position = Vector3.MoveTowards(transform.position, transform.position + dir, 
-            //speed * Time.deltaTime);
         
         if(Random.value < 0.995f) {return;} 
         if(dir != Vector3.zero){
