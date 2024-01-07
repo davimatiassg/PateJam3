@@ -18,7 +18,6 @@ public class Scorer : MonoBehaviour
         }
         set
         {
-            Debug.Log(value);
             if(Instance == null) { return; }
             Instance.score = value;
             Instance.UpdateScoreText();
