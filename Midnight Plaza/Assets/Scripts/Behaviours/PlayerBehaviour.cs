@@ -9,8 +9,11 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     [SerializeField] private float speed;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
+    [SerializeField] private float atk;
     [SerializeField] private int size;
     [SerializeField] private Vector3 direction;
+
+    private bool freeze = false;
 
     private Animator anim;
     private Vector3 Direction
@@ -22,16 +25,22 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private Rigidbody rigb;
     void Start()
     {
+        DataTransfer.playerMaxHp = maxHP;
+        DataTransfer.playerAtk = atk;
+        DataTransfer.playerSpd = speed;
+        DataTransfer.points = Scorer.Score;
+        DataTransfer.people = new List<Person>();
+
         anim = GetComponent<Animator>();
         rigb = GetComponent<Rigidbody>();
     }
 
     private void FixedUpdate() {
-        rigb.velocity = Direction*speed*Time.fixedDeltaTime;
+        if (!freeze) rigb.velocity = Direction*speed*Time.fixedDeltaTime;
     }
     private void Update()
     {
-        Direction = getAxisControl();
+        if (!freeze) Direction = getAxisControl();
     }
 
     private Vector3 getAxisControl()
@@ -57,5 +66,19 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private void Die()
     {
         GameDataManager.Instance.onPlayerDie?.Invoke();
+    }
+
+    public Vector3 GetVelocity() {
+        return rigb.velocity;
+    }
+
+    public void ToggleFreeze() {
+        freeze = !freeze;
+    }
+
+    public void UpdateStats() {
+        maxHP = DataTransfer.playerMaxHp;
+        atk = DataTransfer.playerAtk;
+        speed = DataTransfer.playerSpd;
     }
 }

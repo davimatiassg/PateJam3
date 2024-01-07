@@ -8,6 +8,7 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "Enemy", menuName = "Entities/new Enemy (caraca isso é muito legal)", order = 0)]
 public class Enemy : ScriptableObject, IValuable {
     public Sprite sprite;
+    public float atk;
     public float speed;
     //public Sprite worriedSprite;
     
