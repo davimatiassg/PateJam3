@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2ac2358940e97f840833b3849842520f, type: 3}
-  m_Name: Person
+  m_Name: Person 1
   m_EditorClassIdentifier: 
-  sprite: {fileID: 21300000, guid: f5a1ec6804f94414ba9b109d85123b63, type: 3}
-  speed: 1.25
-  worriedSprite: {fileID: 21300000, guid: 5c165c39799436c4783704d9799f037e, type: 3}
-  scoreValue: 50
+  sprite: {fileID: 21300000, guid: 3527824c58a920d428e04a55c1261291, type: 3}
+  speed: 1
+  worriedSprite: {fileID: 21300000, guid: 6861f196ca7594748982840618a0c61e, type: 3}
+  scoreValue: 30

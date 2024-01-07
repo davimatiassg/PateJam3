@@ -19,7 +19,18 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private Vector3 Direction
     {
         get{ return this.direction; }
-        set{ this.direction = value; if(value != Vector3.zero) { changeFacingDirection();  } }
+        set{ 
+            this.direction = value; 
+            if(value != Vector3.zero) 
+            { 
+                changeFacingDirection();
+                anim.SetBool("isMoving", true);  
+            }
+            else 
+            {
+                anim.SetBool("isMoving", false);
+            }
+        }
     }
 
     private Rigidbody rigb;
@@ -50,6 +61,7 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
 
     private void changeFacingDirection()
     {
+        
         Quaternion lookDir = new Quaternion();
         lookDir.SetLookRotation(this.direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, 10f);

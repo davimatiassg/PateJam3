@@ -43,7 +43,7 @@ public class Scorer : MonoBehaviour
     }
 
     void UpdateScoreText() {
-        textMesh.text = string.Format("{0}", score);
+        textMesh.text = string.Format("Score: {0}", score);
     }
 
 }

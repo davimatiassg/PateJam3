@@ -112,7 +112,7 @@ Transform:
   m_GameObject: {fileID: 2923603946271295413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.0141077, y: 1, z: 13.892067}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -155,9 +155,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fearRange: 25
+  personData: {fileID: 11400000, guid: b811527969e156242888092f21080d6e, type: 2}
   spriteRenderer: {fileID: 430211356560526667}
   anim: {fileID: 357779631717439670}
-  personData: {fileID: 11400000, guid: b811527969e156242888092f21080d6e, type: 2}
 --- !u!95 &357779631717439670
 Animator:
   serializedVersion: 5
