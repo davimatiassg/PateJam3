@@ -9,9 +9,10 @@ public class CityBuilder : MonoBehaviour
 
     [SerializeField] private GameObject tasukete;
     [SerializeField] private GameObject building;
-    [SerializeField] private Transform buildings;
     private Transform player;
+    private Transform buildings;
 
+    private float ledge = -0.25f;
     private int w, h;
     private Transform p1, p2;
     private int[,] grid;
@@ -28,6 +29,9 @@ public class CityBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.FindWithTag("Player").transform;
+        buildings = transform.Find("buildings").transform;
+
         p1 = transform.Find("p1").transform;
         p2 = transform.Find("p2").transform;
 
@@ -45,7 +49,15 @@ public class CityBuilder : MonoBehaviour
     {
         if (create) {
             BuildCity();
+            transform.localEulerAngles = buildings.transform.eulerAngles;
             create = false;
+        }
+
+        if (Vector3.Distance(transform.position, player.position) > 30f) {
+            transform.Find("buildings").gameObject.SetActive(false);
+        }
+        else {
+            transform.Find("buildings").gameObject.SetActive(true);
         }
     }
 
@@ -112,32 +124,31 @@ public class CityBuilder : MonoBehaviour
     // x, z
     void CreateBuilding(int i, int j) {
 
-        Vector3 p1c = p1.position, p2c = p2.position;
+        Vector3 p1c = p1.localPosition, p2c = p2.localPosition;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
         GameObject b = Instantiate(building, buildings);
-        b.transform.localPosition = new Vector3(left + (i + 0.5f) * spacing, 0, top + (j + 0.5f) * spacing);
+        b.transform.localPosition = new Vector3(left + (i + 0.5f) * spacing, ledge, top + (j + 0.5f) * spacing);
     }
 
     // x, z
     void CreateSection(int i, int j, GameObject sec) {
 
-        Vector3 p1c = p1.position, p2c = p2.position;
+        Vector3 p1c = p1.localPosition, p2c = p2.localPosition;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
         GameObject b = Instantiate(sec, buildings);
-        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing);
-
+        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, ledge, top + (j + 0f) * spacing);
     }
 
     // x, z
     void CreateTasukete(int i, int j) {
 
-        Vector3 p1c = p1.position, p2c = p2.position;
+        Vector3 p1c = p1.localPosition, p2c = p2.localPosition;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
         GameObject b = Instantiate(tasukete, buildings);
-        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing);
+        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, ledge, top + (j + 0f) * spacing);
 
     }
 }

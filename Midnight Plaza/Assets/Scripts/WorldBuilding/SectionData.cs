@@ -36,7 +36,7 @@ public class SectionData : MonoBehaviour
     {
         if(SectionData.Instance.sections.Count == 0) { return null; }
         int i = Random.Range(0, SectionData.Instance.sections.Count);
-        Debug.Log(SectionData.Instance.sections[i]);
+        //Debug.Log(SectionData.Instance.sections[i]);
         return SectionData.Instance.sections[i];
     }
 
@@ -44,7 +44,7 @@ public class SectionData : MonoBehaviour
     {
         if(SectionData.Instance.buildings.Count == 0) { return null; }
         int i = Random.Range(0, SectionData.Instance.buildings.Count);
-        Debug.Log(SectionData.Instance.buildings[i]);
+        //Debug.Log(SectionData.Instance.buildings[i]);
         return SectionData.Instance.buildings[i];
     }
 }

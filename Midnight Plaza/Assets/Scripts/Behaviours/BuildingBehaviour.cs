@@ -32,7 +32,6 @@ public class BuildingBehaviour : MonoBehaviour, IHittable
         
         // Team Rocket
         if (hp <= 0) {
-            hp = 0;
             rb.isKinematic = false;
             rb.velocity += new Vector3(force.x, 20f, force.z);
             rb.AddTorque(new Vector3(20f, 10f, 20f) * 50f);

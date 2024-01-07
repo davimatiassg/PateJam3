@@ -17,6 +17,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
     private GameObject target;
     private Rigidbody rb;
 
+    private float atk = 1f;
     private float rAtk = 0f;
     private bool attacking = false;
     private float friction = 10f;
@@ -27,6 +28,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
         set{
             this.enemyData = value;
             this.speed = enemyData.speed;
+            this.atk = enemyData.atk;
         } 
     }
 
@@ -74,7 +76,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
             // Hitting target
             target.TryGetComponent(out IHittable victim);
             var force = 2f * (target.transform.position - transform.position).normalized;
-            victim.TakeDmg(1f, force, this.gameObject);
+            victim.TakeDmg(atk, force, this.gameObject);
         }
 
         rAtk += Time.deltaTime;

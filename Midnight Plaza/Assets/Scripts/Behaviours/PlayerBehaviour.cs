@@ -58,4 +58,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     {
         GameDataManager.Instance.onPlayerDie?.Invoke();
     }
+
+    public Vector3 GetVelocity() {
+        return rigb.velocity;
+    }
 }
