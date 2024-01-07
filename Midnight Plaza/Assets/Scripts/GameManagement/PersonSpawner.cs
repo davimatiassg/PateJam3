@@ -1,17 +1,31 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 
-public class PersonSpawner  
+public class PersonSpawner : MonoBehaviour
 {
-    private float countdown = 0;
+    [SerializeField] private float countdown = 0;
 
     private Transform playerTransform;
+
+    [SerializeField] private GameObject personPrefab;
     [SerializeField] private float minTime = 5f;
     [SerializeField] private float randomTime = 3f;
-    Person[] people = Resources.LoadAll<Person>("Assets/Entities/People");
+    List<Person> people = new List<Person>();
 
+    private void Awake()
+    {
+        string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Person).Name, new[] { "Assets/Entities/People" });
+        people.Clear();
+        foreach (string SOName in assetNames)
+        {
+            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
+            var person = AssetDatabase.LoadAssetAtPath<Person>(SOpath);
+            people.Add(person);
+        }
+    }
     private void Start() {
         setCountDown();
         playerTransform = GameObject.FindWithTag("Player").transform;
@@ -24,6 +38,11 @@ public class PersonSpawner
             spawnGroups(playerTransform.position);
         }
     }
+    private void setCountDown()
+    {
+        countdown = minTime + Random.value*randomTime;
+    }
+
 
     public void spawnGroups(Vector3 position)
     {
@@ -46,12 +65,10 @@ public class PersonSpawner
     }
     public void spawnPerson(Vector3 position)
     {
-        //GameObject.Instantiate();
+        if(people.Count == 0) return;
+        PersonBehaviour person = GameObject.Instantiate(personPrefab, position, new Quaternion(0, 1, 0, 0)).GetComponent<PersonBehaviour>();
+        person.personData = people[(int)(Random.value*(float)people.Count) % people.Count];
     }   
 
-    private void setCountDown()
-    {
-        countdown = minTime + Random.value*randomTime;
-    }
-
+   
 }
