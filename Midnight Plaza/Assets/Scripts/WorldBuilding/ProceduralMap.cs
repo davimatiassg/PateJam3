@@ -32,19 +32,12 @@ public class ProceduralMap : MonoBehaviour
         if (PlayerOutsideChunk(currentChunk)) {
             GenerateNewChunk(currentChunk);
             chunks.Add(currentChunk);
-            //Debug.Log(currentChunk);
         }
     }
 
     void GenerateNewChunk(Rect chunk_) {
-
-
         Vector3 pos = new Vector3(chunk_.x * chunkSize, transform.position.y, chunk_.y * chunkSize);
-
-
-
-        var c = Instantiate(chunk, buildings); //pos, Quaternion.identity
-        //c.transform.parent = buildings;
+        var c = Instantiate(chunk, buildings); 
         c.transform.localPosition = pos;
         chunkObjs.Add(c);
     }
@@ -59,12 +52,13 @@ public class ProceduralMap : MonoBehaviour
         float px = playerTrans.position.x + v.x, pz = playerTrans.position.z + v.z;
         Vector3 vec = new Vector3(px, 0, pz);
 
-        vec = Quaternion.Euler(new Vector3(0, -45, 0)) * vec; // was using it before, might use it again, dont remove!!!
+        vec = Quaternion.Euler(buildings.eulerAngles) * vec;
         px = vec.x;
         pz = vec.z;
 
         Rect currentChunk = new Rect(
             Mathf.Floor(px / chunkSize), Mathf.Floor(pz / chunkSize), chunkSize, chunkSize);
+        
         return currentChunk;
     }
 }

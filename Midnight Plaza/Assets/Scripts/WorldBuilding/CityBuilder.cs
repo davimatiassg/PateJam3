@@ -49,7 +49,6 @@ public class CityBuilder : MonoBehaviour
     {
         if (create) {
             BuildCity();
-            //transform.localEulerAngles = buildings.transform.eulerAngles;
             create = false;
         }
 
