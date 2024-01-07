@@ -84,6 +84,7 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
         string otherTag = hitter.tag;
         if(otherTag.Equals("Player"))
         {
+            DataTransfer.people.Add(personData);
             GameDataManager.Instance.onCollectProp?.Invoke(this);
             GameDataManager.Instance.onGainScore?.Invoke(PersonData);
             Destroy(this.gameObject);

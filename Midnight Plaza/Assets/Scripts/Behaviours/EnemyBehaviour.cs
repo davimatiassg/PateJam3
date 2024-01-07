@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyBehaviour : MonoBehaviour, IHittable
 {
-    public float hp = 10;
+    public int hp = 10;
     public float speed = 1f;
     public float loadAtk = 0.5f;
     public float minChaseRange = 1f;
@@ -83,7 +83,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
     }
 
     public void TakeDmg(float dmg, Vector3 force, GameObject source) {
-        hp -= dmg;
+        hp -= (int) dmg;
         rb.velocity += force;
     }
 

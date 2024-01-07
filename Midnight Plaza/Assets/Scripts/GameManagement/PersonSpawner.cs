@@ -7,6 +7,7 @@ using UnityEditor;
 public class PersonSpawner : MonoBehaviour
 {
     [SerializeField] private float countdown = 0;
+    [SerializeField] private Transform peopleParent;
 
     private Transform playerTransform;
 
@@ -66,8 +67,12 @@ public class PersonSpawner : MonoBehaviour
     public void spawnPerson(Vector3 position)
     {
         if(people.Count == 0) return;
-        PersonBehaviour person = GameObject.Instantiate(personPrefab, position, new Quaternion(0, 1, 0, 0)).GetComponent<PersonBehaviour>();
-        person.personData = people[(int)(Random.value*(float)people.Count) % people.Count];
+
+        GameObject person = GameObject.Instantiate(personPrefab, position, new Quaternion(0, 1, 0, 0));
+        person.transform.parent = peopleParent;
+
+        PersonBehaviour personScript = person.GetComponent<PersonBehaviour>();
+        personScript.personData = people[(int)(Random.value*(float)people.Count) % people.Count];
     }   
 
    

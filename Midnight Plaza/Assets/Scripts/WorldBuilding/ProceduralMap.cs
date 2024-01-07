@@ -52,7 +52,7 @@ public class ProceduralMap : MonoBehaviour
         float px = playerTrans.position.x + v.x, pz = playerTrans.position.z + v.z;
         Vector3 vec = new Vector3(px, 0, pz);
 
-        vec = Quaternion.Euler(buildings.eulerAngles) * vec;
+        vec = Quaternion.Euler(new Vector3(0, -45f, 0)) * vec;
         px = vec.x;
         pz = vec.z;
 

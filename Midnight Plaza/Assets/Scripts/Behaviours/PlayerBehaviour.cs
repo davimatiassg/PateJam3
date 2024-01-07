@@ -9,6 +9,7 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     [SerializeField] private float speed;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
+    [SerializeField] private float atk;
     [SerializeField] private int size;
     [SerializeField] private Vector3 direction;
 
@@ -24,6 +25,12 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private Rigidbody rigb;
     void Start()
     {
+        DataTransfer.playerMaxHp = maxHP;
+        DataTransfer.playerAtk = atk;
+        DataTransfer.playerSpd = speed;
+        DataTransfer.points = Scorer.Score;
+        DataTransfer.people = new List<Person>();
+
         anim = GetComponent<Animator>();
         rigb = GetComponent<Rigidbody>();
     }
@@ -67,5 +74,11 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
 
     public void ToggleFreeze() {
         freeze = !freeze;
+    }
+
+    public void UpdateStats() {
+        maxHP = DataTransfer.playerMaxHp;
+        atk = DataTransfer.playerAtk;
+        speed = DataTransfer.playerSpd;
     }
 }
