@@ -537,16 +537,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 304599003}
     - target: {fileID: 591807279402812267, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
+      propertyPath: loadAtk
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 591807279402812267, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: destination
       value: 
       objectReference: {fileID: 304599003}
     - target: {fileID: 591807279402812267, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: minChaseRange
-      value: 0.5
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 5179334905339571993, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: m_Constraints
-      value: 112
+      value: 116
       objectReference: {fileID: 0}
     - target: {fileID: 6142823267660926525, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: m_LocalPosition.x
@@ -554,7 +558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6142823267660926525, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.031
       objectReference: {fileID: 0}
     - target: {fileID: 6142823267660926525, guid: 09b49aff1fb84b0449a046f2d2e367dd, type: 3}
       propertyPath: m_LocalPosition.z
