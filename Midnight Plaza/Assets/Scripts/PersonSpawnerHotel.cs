@@ -6,6 +6,7 @@ using UnityEditor;
 public class PersonSpawnerHotel : MonoBehaviour
 {
 
+    [SerializeField] private bool isRandom = false;
     [SerializeField] private float personScale = 0.4f;
     [SerializeField] private GameObject personPrefab;
     [SerializeField] private Transform peopleParent;
@@ -37,7 +38,9 @@ public class PersonSpawnerHotel : MonoBehaviour
 
     public void spawnPersonGroup(Vector3 position)
     {
-        for(int i = 0; i < DataTransfer.people.Count; i++)
+        int n = isRandom ? 6 : DataTransfer.people.Count;
+
+        for(int i = 0; i < n; i++)
         {
             Vector2 r = Random.insideUnitCircle*1f;
             spawnPerson(new Vector3(position.x + r.x, position.y, position.z + r.y), i);
@@ -56,6 +59,6 @@ public class PersonSpawnerHotel : MonoBehaviour
         rb.freezeRotation = true;
 
         PersonBehaviour personScript = person.GetComponent<PersonBehaviour>();
-        personScript.personData = DataTransfer.people[ind];
+        personScript.personData = isRandom ? people[(int)(Random.value*(float)people.Count) % people.Count] : DataTransfer.people[ind];
     }  
 }

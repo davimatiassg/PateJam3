@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour
 {
+    [SerializeField] private Transform canvas;
+
+    private bool paused = false;
     private bool HotelMenu = false;
     private PlayerBehaviour player;
 
@@ -24,6 +27,10 @@ public class Menu : MonoBehaviour
 
             LoadUnloadHotel(HotelMenu);
 
+        }
+
+        if (Input.GetKeyDown(KeyCode.E)) {
+            TogglePause();
         }
     }
 
@@ -55,4 +62,43 @@ public class Menu : MonoBehaviour
         }
         
     }
+
+    void TogglePause() {
+        if (paused) {
+            ResumeGame();
+        }
+        else {
+            PauseGame();
+        }
+    }
+
+    public void PauseGame()
+    {
+        Time.timeScale = 0f;
+        
+        canvas.Find("NonPause").gameObject.SetActive(false);
+        canvas.Find("Pause").gameObject.SetActive(true);
+
+        paused = true;
+    }
+
+    public void ResumeGame()
+    {
+        canvas.Find("NonPause").gameObject.SetActive(true);
+        canvas.Find("Pause").gameObject.SetActive(false);
+
+        Time.timeScale = 1f;
+        paused = false;
+    }
+
+    public void SliderChange(float value) {
+        PlayerPrefs.SetFloat("Volume", value);
+    }
+
+    public void ExitGame()
+    {
+        //UnityEditor.EditorApplication.isPlaying = false;
+        Application.Quit();
+    }
+
 }
