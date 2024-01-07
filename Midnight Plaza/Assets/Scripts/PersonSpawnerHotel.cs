@@ -37,15 +37,13 @@ public class PersonSpawnerHotel : MonoBehaviour
 
     public void spawnPersonGroup(Vector3 position)
     {
-        int groupSize = 6;
-
-        for(int i = 0; i < groupSize; i++)
+        for(int i = 0; i < DataTransfer.people.Count; i++)
         {
             Vector2 r = Random.insideUnitCircle*1f;
-            spawnPerson(new Vector3(position.x + r.x, position.y, position.z + r.y));
+            spawnPerson(new Vector3(position.x + r.x, position.y, position.z + r.y), i);
         }
     }
-    public void spawnPerson(Vector3 position)
+    public void spawnPerson(Vector3 position, int ind)
     {
         if(people.Count == 0) return;
 
@@ -58,6 +56,6 @@ public class PersonSpawnerHotel : MonoBehaviour
         rb.freezeRotation = true;
 
         PersonBehaviour personScript = person.GetComponent<PersonBehaviour>();
-        personScript.personData = people[(int)(Random.value*(float)people.Count) % people.Count];
+        personScript.personData = DataTransfer.people[ind];
     }  
 }
