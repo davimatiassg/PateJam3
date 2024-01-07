@@ -17,7 +17,7 @@ public class GameDataManager
     }
 
     //Delegates Declaration
-    public delegate void OnCollectProp(IGrabable value);
+    public delegate void OnCollectProp(IGrabbable value);
     public delegate void OnDestroyProp(IDestructable value);
     public delegate void OnGainScore(IValuable value);
     public delegate void OnTakeDamage(int currentHP, int maxHP);

@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IGrabable
+public interface IGrabbable
 {
-    public void GetGrabed();
+    public void GetGrabbed();
 }

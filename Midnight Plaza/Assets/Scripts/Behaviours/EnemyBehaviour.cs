@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour, IHittable
     public float rangeSee = 4f;
 
     private Transform player;
-    private Transform fred; // point in the object to be used as a player
+    private Transform fred; // point in the object to be used as a destination
     private GameObject target;
     private Rigidbody rb;
 

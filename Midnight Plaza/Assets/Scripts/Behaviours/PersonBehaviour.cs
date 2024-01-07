@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class PersonBehaviour : MonoBehaviour, IHittable, IGrabable {
+public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
     [SerializeField] private float fearRange;
     [SerializeField] public Person personData;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -93,7 +93,7 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabable {
             Destroy(this.gameObject);
         }   
     }
-    public void GetGrabed()
+    public void GetGrabbed()
     {
         currentMoviment = GrabedMove;
     }
