@@ -20,10 +20,15 @@ public class GameDataManager
     public delegate void OnCollectProp(IGrabable value);
     public delegate void OnDestroyProp(IDestructable value);
     public delegate void OnGainScore(IValuable value);
-
+    public delegate void OnTakeDamage(int currentHP, int maxHP);
+    public delegate void OnPlayerDie();
 
     //Event delegates
     public OnCollectProp onCollectProp;
     public OnDestroyProp onDestroyProp;
     public OnGainScore onGainScore;
+    public OnTakeDamage onTakeDamage;
+    public OnPlayerDie onPlayerDie;
+
+
 }

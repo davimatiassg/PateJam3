@@ -2,13 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildingBehaviour : MonoBehaviour, ITakeDmg
+public class BuildingBehaviour : MonoBehaviour, IHittable
 {
     public float hp = 3f;
-    
+    public float sturdyness = 2f;
     private float r_die = 1.5f;
     private Rigidbody rb;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -25,13 +24,15 @@ public class BuildingBehaviour : MonoBehaviour, ITakeDmg
         }
     }
 
-    public void TakeDmg(float dmg, Vector3 force) {
+    public void TakeDmg(float dmg, Vector3 force, GameObject source) {
         if (hp <= 0) {return;}
-
-        hp -= dmg;
-
+        if(dmg > sturdyness) { hp -= dmg; }
+        else{ //TODO - play "too big to break right now" sfx
+        }
+        
         // Team Rocket
         if (hp <= 0) {
+            hp = 0;
             rb.isKinematic = false;
             rb.velocity += new Vector3(force.x, 20f, force.z);
             rb.AddTorque(new Vector3(20f, 10f, 20f) * 50f);

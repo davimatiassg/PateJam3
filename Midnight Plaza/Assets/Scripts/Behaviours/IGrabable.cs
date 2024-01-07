@@ -3,5 +3,5 @@ using System.Collections.Generic;
 
 public interface IGrabable
 {
-    public void getGrabed();
+    public void GetGrabed();
 }

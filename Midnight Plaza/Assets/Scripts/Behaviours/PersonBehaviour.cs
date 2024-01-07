@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class PersonBehaviour : MonoBehaviour {
+public class PersonBehaviour : MonoBehaviour, IHittable, IGrabable {
     [SerializeField] private float fearRange;
     [SerializeField] public Person personData;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -28,7 +28,7 @@ public class PersonBehaviour : MonoBehaviour {
     private void Start() {
         this.PersonData = this.personData; 
         playerTransform = GameObject.FindWithTag("Player").transform;
-        currentMoviment = randomMove;
+        currentMoviment = RandomMove;
     }
 
     private void Update() {       
@@ -39,7 +39,7 @@ public class PersonBehaviour : MonoBehaviour {
             spriteRenderer.sprite = personData.worriedSprite;
             anim.Play("PersonWaddle");
             anim.speed = 3;
-            currentMoviment = fearedMove;
+            currentMoviment = FearedMove;
         }
         currentMoviment?.Invoke();
     }
@@ -54,7 +54,7 @@ public class PersonBehaviour : MonoBehaviour {
         return (p.x - pp.x)*(p.x - pp.x) + (p.z - pp.z)*(p.z - pp.z) > 625f;
     }
 
-    public void randomMove()
+    public void RandomMove()
     {
         transform.position = Vector3.MoveTowards(transform.position, transform.position + currentDirection, speed*Time.deltaTime);
         if(Random.value < 0.995f) {return;} 
@@ -66,30 +66,42 @@ public class PersonBehaviour : MonoBehaviour {
         anim.Play("PersonWaddle");
         Vector3 d = Random.onUnitSphere;
         currentDirection = new Vector3 (d.x, 0, d.z);
-        spriteRenderer.flipX = d.x < 0;
+        spriteRenderer.flipX = d.x > 0;
     }
 
-    public void fearedMove()
+    public void FearedMove()
     {
         Vector3 playerPosition = playerTransform.position;
         Vector3 position = transform.position; 
-        spriteRenderer.flipX = playerPosition.x > position.x;
+        spriteRenderer.flipX = playerPosition.x < position.x;
         transform.position += (new Vector3(position.x - playerPosition.x, 0, position.z - playerPosition.z)).normalized*speed*Time.deltaTime;
     }
+    private void GrabedMove(){ return; }
+    
 
-    public void OnTriggerEnter(Collider other) 
+    public void TakeDmg(float dmg, Vector3 force, GameObject hitter)
     {
-        string otherTag = other.gameObject.tag;
+        string otherTag = hitter.tag;
         if(otherTag.Equals("Player"))
         {
-            GameDataManager.Instance.onCollectProp?.Invoke(PersonData);
+            GameDataManager.Instance.onCollectProp?.Invoke(this);
             GameDataManager.Instance.onGainScore?.Invoke(PersonData);
             Destroy(this.gameObject);
         }
         else if(otherTag.Equals("Enemy"))
         {
             Destroy(this.gameObject);
-        }
+        }   
     }
+    public void GetGrabed()
+    {
+        currentMoviment = GrabedMove;
+    }
+
+    public void OnTriggerEnter(Collider other) 
+    {  
+        TakeDmg(0, Vector3.zero, other.gameObject);
+    }
+    
     
 }

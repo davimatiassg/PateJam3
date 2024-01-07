@@ -2,23 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class PlayerMoviment : MonoBehaviour
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(Rigidbody))]
+public class PlayerBehaviour : MonoBehaviour, IHittable
 {
     [SerializeField] private float speed;
     [SerializeField] private int hp;
+    [SerializeField] private int maxHP;
     [SerializeField] private int size;
+    [SerializeField] private Vector3 direction;
 
-    private Vector3 direction;
+    private Animator anim;
     private Vector3 Direction
     {
         get{ return this.direction; }
-        set{ this.direction = value; if(Vector3.Distance(value, Vector3.zero) > 0.5f) { changeFacingDirection();  } }
+        set{ this.direction = value; if(value != Vector3.zero) { changeFacingDirection();  } }
     }
 
     private Rigidbody rigb;
     void Start()
     {
+        anim = GetComponent<Animator>();
         rigb = GetComponent<Rigidbody>();
     }
 
@@ -40,5 +44,18 @@ public class PlayerMoviment : MonoBehaviour
         Quaternion lookDir = new Quaternion();
         lookDir.SetLookRotation(this.direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, 10f);
+    }
+
+
+    public void TakeDmg(float dmg, Vector3 force, GameObject source)
+    {
+        hp -= (int)dmg;
+        GameDataManager.Instance.onTakeDamage?.Invoke(hp, maxHP);
+        if(hp <= 0){Die();}
+    }
+
+    private void Die()
+    {
+        GameDataManager.Instance.onPlayerDie?.Invoke();
     }
 }

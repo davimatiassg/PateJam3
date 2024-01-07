@@ -4,15 +4,12 @@ using UnityEngine;
 
 public class Section : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        //transform.Find("buildings").transform.eulerAngles = new Vector3(0, Random.Range(0, 4) * 90f, 0);
-    }
+    [SerializeField] private List<SubSection> subsections = new List<SubSection>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    private void Start() {
+        foreach(SubSection s in subsections)
+        {
+            s.Structure = SectionData.GetRandomBuilding();
+        }
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyAI : MonoBehaviour, ITakeDmg
+public class EnemyAI : MonoBehaviour, IHittable
 {
     public float hp = 10;
     public float spd = 1f;
@@ -61,15 +61,15 @@ public class EnemyAI : MonoBehaviour, ITakeDmg
             rAtk = 0f;
 
             // Hitting target
-            target.TryGetComponent(out ITakeDmg victim);
+            target.TryGetComponent(out IHittable victim);
             var force = 2f * (target.transform.position - transform.position).normalized;
-            victim.TakeDmg(1f, force);
+            victim.TakeDmg(1f, force, this.gameObject);
         }
 
         rAtk += Time.deltaTime;
     }
 
-    public void TakeDmg(float dmg, Vector3 force) {
+    public void TakeDmg(float dmg, Vector3 force, GameObject source) {
         hp -= dmg;
         rb.velocity += force;
     }

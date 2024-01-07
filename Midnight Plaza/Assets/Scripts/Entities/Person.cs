@@ -6,7 +6,7 @@ using UnityEditor;
 #endif
 
 [CreateAssetMenu(fileName = "Person", menuName = "Entities/new Person", order = 0)]
-public class Person : ScriptableObject, IValuable, IGrabable, IDestructable {
+public class Person : ScriptableObject, IValuable {
     public Sprite sprite;
     public float speed;
     public Sprite worriedSprite;
@@ -15,12 +15,11 @@ public class Person : ScriptableObject, IValuable, IGrabable, IDestructable {
     public int ScoreValue { get {return this.scoreValue;}  set{this.scoreValue = value;} }
 
     public void getGrabed(){return;}
-    public void getDestroyed(){return;}
 
     #if UNITY_EDITOR
 
     [CustomEditor(typeof(Person))]
-    public class CardEditor : Editor
+    public class PersonEditor : Editor
     {       
         public override Texture2D RenderStaticPreview(string assetPath, UnityEngine.Object[] subAssets, int width, int height)
         {

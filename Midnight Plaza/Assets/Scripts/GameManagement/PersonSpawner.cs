@@ -49,8 +49,8 @@ public class PersonSpawner : MonoBehaviour
         int groupAmmout = (int) (Random.value*4);
         for(int i = 0; i < groupAmmout; i++)
         {
-            Vector2 r = Random.insideUnitCircle*15;
-            spawnPersonGroup(new Vector3(position.x + r.x, 1, position.z + r.y));
+            float angle = Random.value*360f;
+            spawnPersonGroup(new Vector3(position.x + Mathf.Sin(angle)*15, 1, position.z + Mathf.Cos(angle)*10));
         }
     }
 
@@ -59,7 +59,7 @@ public class PersonSpawner : MonoBehaviour
         int groupSize = (int) (Random.value*6);
         for(int i = 0; i < groupSize; i++)
         {
-            Vector2 r = Random.insideUnitCircle*2f;
+            Vector2 r = Random.insideUnitCircle*8f;
             spawnPerson(new Vector3(position.x + r.x, 1, position.z + r.y));
         }
     }

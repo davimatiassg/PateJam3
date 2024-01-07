@@ -11,7 +11,6 @@ public class CityBuilder : MonoBehaviour
     [SerializeField] private GameObject building;
     [SerializeField] private Transform buildings;
 
-    private SectionData sectionData;
     private int w, h;
     private Transform p1, p2;
     private int[,] grid;
@@ -28,8 +27,6 @@ public class CityBuilder : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        sectionData = GameObject.FindWithTag("SectionData").GetComponent<SectionData>();
-
         p1 = transform.Find("p1").transform;
         p2 = transform.Find("p2").transform;
 
@@ -55,17 +52,19 @@ public class CityBuilder : MonoBehaviour
 
         for (int i = 0;i < w;i ++)
         {
-        for (int j = 0;j < h;j ++)
-        {
-            BuildAt(i, j);
-        }
+            for (int j = 0;j < h;j ++)
+            {
+                BuildAt(i, j);
+            }
         }
 
     }
 
     void BuildAt(int i, int j) {
         if (grid[i, j] >= 0 && Random.Range(0f, 1f) < density) {
-            tryToPlaceSection(i, j, getRandomSection());
+            GameObject section = SectionData.GetRandomSection();
+            if(section == null) { return; }
+            tryToPlaceSection(i, j, section);
         }
     }
 
@@ -97,12 +96,6 @@ public class CityBuilder : MonoBehaviour
         return true;
     }
 
-    GameObject getRandomSection() {
-
-        int i = Random.Range(0, sectionData.sections.Count);
-        return sectionData.sections[i];
-    }
-
     int2 getSectionArea(GameObject sec) {
         Transform secT = sec.transform;
 
@@ -119,11 +112,8 @@ public class CityBuilder : MonoBehaviour
         Vector3 p1c = p1.position, p2c = p2.position;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
-        var b = Instantiate(building, 
-            new Vector3(left + (i + 0.5f) * spacing, 0, top + (j + 0.5f) * spacing), Quaternion.identity);
-
-        b.transform.parent = buildings;
-
+        GameObject b = Instantiate(building, buildings);
+        b.transform.localPosition = new Vector3(left + (i + 0.5f) * spacing, 0, top + (j + 0.5f) * spacing);
     }
 
     // x, z
@@ -132,10 +122,8 @@ public class CityBuilder : MonoBehaviour
         Vector3 p1c = p1.position, p2c = p2.position;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
-        var b = Instantiate(sec, 
-            new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing), Quaternion.identity);
-
-        b.transform.parent = buildings;
+        GameObject b = Instantiate(sec, buildings);
+        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing);
 
     }
 
@@ -145,10 +133,8 @@ public class CityBuilder : MonoBehaviour
         Vector3 p1c = p1.position, p2c = p2.position;
         float top = p1c.z, left = p1c.x, bottom = p2c.z, right = p2c.x;
 
-        var b = Instantiate(tasukete, 
-            new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing), Quaternion.identity);
-
-        b.transform.parent = buildings;
+        GameObject b = Instantiate(tasukete, buildings);
+        b.transform.localPosition = new Vector3(left + (i + 0f) * spacing, 0, top + (j + 0f) * spacing);
 
     }
 }
