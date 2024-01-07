@@ -10,10 +10,8 @@ public class EnemyAI : MonoBehaviour, ITakeDmg
     public float minChaseRange = 1f;
     public float rangeSee = 4f;
 
-    public Transform destination;
-
     private Transform player;
-    private Transform fred; // point in the object to be used as a destination
+    private Transform fred; // point in the object to be used as a player
     private GameObject target;
     private Rigidbody rb;
 
@@ -107,9 +105,12 @@ public class EnemyAI : MonoBehaviour, ITakeDmg
     
 
     void ChasePlayer() {
-        if (Vector3.Distance(transform.position, destination.position) > minChaseRange) {
-            MoveTo(destination.position);
+        if (Vector3.Distance(transform.position, player.position) > minChaseRange) {
+            MoveTo(player.position);
         }
+        
+        var dir = player.position - transform.position;
+        fred.localPosition = new Vector3 (dir.x, 0, dir.z);
     }
 
     //
