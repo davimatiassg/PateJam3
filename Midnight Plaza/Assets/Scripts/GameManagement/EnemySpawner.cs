@@ -20,19 +20,17 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float randomTime = 3f;
     List<Enemy> enemies = new List<Enemy>();
 
-    #if UNITY_EDITOR
-    private void OnEnable()
+    private void Awake()
     {
-        string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Enemy).Name, new[] { "Assets/Entities/Enemies" });
+        Object[] olist = Resources.LoadAll("Enemies", typeof(Enemy));
+        //assetNames = AssetDatabase.FindAssets("t:" + typeof(GameObject).Name, new[] { "Assets/Prefabs/Scenary/Buildings" });
         enemies.Clear();
-        foreach (string SOName in assetNames)
+        foreach (Object o in olist)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var enemy = AssetDatabase.LoadAssetAtPath<Enemy>(SOpath);
-            enemies.Add(enemy);
+            enemies.Add((Enemy)o);
         }
+        
     }
-    #endif
 
     private void Start() {
         setCountDown();

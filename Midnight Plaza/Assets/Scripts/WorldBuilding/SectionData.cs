@@ -11,32 +11,26 @@ public class SectionData : MonoBehaviour
     private List<GameObject> sections = new List<GameObject>();
     private List<GameObject> buildings = new List<GameObject>();
 
-    #if UNITY_EDITOR
-    void OnEnable()
+    void Awake()
     {
         if(SectionData.Instance == null){ SectionData.Instance = this; }
         else if(SectionData.Instance != this) { Destroy(this.gameObject);  return; }
-
-        string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(GameObject).Name, new[] { "Assets/Prefabs/Scenary/Sections" });
+        
+        Object[] osections = Resources.LoadAll("Sections", typeof(GameObject));
         sections.Clear();
-        foreach (string SOName in assetNames)
+        foreach (Object o in osections)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var section = AssetDatabase.LoadAssetAtPath<GameObject>(SOpath);
-            sections.Add(section);
+            sections.Add((GameObject)o);
         }
 
-        assetNames = AssetDatabase.FindAssets("t:" + typeof(GameObject).Name, new[] { "Assets/Prefabs/Scenary/Buildings" });
+        osections = Resources.LoadAll("Buildings", typeof(GameObject));
+        //assetNames = AssetDatabase.FindAssets("t:" + typeof(GameObject).Name, new[] { "Assets/Prefabs/Scenary/Buildings" });
         buildings.Clear();
-        foreach (string SOName in assetNames)
+        foreach (Object o in osections)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var building = AssetDatabase.LoadAssetAtPath<GameObject>(SOpath);
-            buildings.Add(building);
+            buildings.Add((GameObject)o);
         }
     }
-    #endif
-
 
     public static GameObject GetRandomSection()
     {

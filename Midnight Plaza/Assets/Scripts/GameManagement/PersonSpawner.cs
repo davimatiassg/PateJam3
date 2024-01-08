@@ -17,19 +17,16 @@ public class PersonSpawner : MonoBehaviour
     [SerializeField] private float randomTime = 3f;
     List<Person> people = new List<Person>();
 
-    #if UNITY_EDITOR
-    private void OnEnable()
+    private void Awake()
     {
-        string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Person).Name, new[] { "Assets/Entities/People" });
+        Object[] olist = Resources.LoadAll("People", typeof(Person));
+        //assetNames = AssetDatabase.FindAssets("t:" + typeof(GameObject).Name, new[] { "Assets/Prefabs/Scenary/Buildings" });
         people.Clear();
-        foreach (string SOName in assetNames)
+        foreach (Object o in olist)
         {
-            var SOpath = AssetDatabase.GUIDToAssetPath(SOName);
-            var person = AssetDatabase.LoadAssetAtPath<Person>(SOpath);
-            people.Add(person);
+            people.Add((Person)o);
         }
     }
-    #endif
 
     private void Start() {
         setCountDown();

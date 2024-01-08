@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac2358940e97f840833b3849842520f, type: 3}
+  m_Name: Person 4
+  m_EditorClassIdentifier: 
+  sprite: {fileID: 21300000, guid: 599107e53182b68478d36e192fcfdf03, type: 3}
+  speed: 2
+  worriedSprite: {fileID: 21300000, guid: 7ad74244cde5a3643a7cd759ccb33eed, type: 3}
+  scoreValue: 100
