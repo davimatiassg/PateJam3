@@ -8,6 +8,9 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
     [SerializeField] public Person personData;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Animator anim;
+
+    [SerializeField] private List<AudioClip> screams;
+    private AudioSource audioSource;
     
     private float speed;
     private Transform playerTransform;
@@ -26,6 +29,8 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
     }
 
     private void Start() {
+        audioSource = GetComponent<AudioSource>();
+
         this.PersonData = this.personData; 
         playerTransform = GameObject.FindWithTag("Player").transform;
         currentMoviment = RandomMove;
@@ -71,6 +76,8 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
 
     public void FearedMove()
     {
+        if(Random.value > 0.995f) {Scream();}
+
         Vector3 playerPosition = playerTransform.position;
         Vector3 position = transform.position; 
         spriteRenderer.flipX = playerPosition.x < position.x;
@@ -87,10 +94,12 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
             DataTransfer.people.Add(personData);
             GameDataManager.Instance.onCollectProp?.Invoke(this);
             GameDataManager.Instance.onGainScore?.Invoke(PersonData);
+            playerTransform.gameObject.GetComponent<PlayerBehaviour>().PlayEatingSound();
             Destroy(this.gameObject);
         }
         else if(otherTag.Equals("Enemy"))
         {
+            hitter.GetComponent<EnemyBehaviour>().PlayEatingSound();
             Destroy(this.gameObject);
         }   
     }
@@ -104,5 +113,8 @@ public class PersonBehaviour : MonoBehaviour, IHittable, IGrabbable {
         TakeDmg(0, Vector3.zero, other.gameObject);
     }
     
+    public void Scream() {
+        audioSource.PlayOneShot(screams[Random.Range(0, screams.Count)]);
+    }
     
 }

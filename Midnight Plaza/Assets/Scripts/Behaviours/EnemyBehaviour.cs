@@ -12,6 +12,11 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
 
     [SerializeField] public Enemy enemyData;
 
+    [SerializeField] private List<AudioClip> screams;
+    [SerializeField] private AudioClip eatingSound;
+
+    private AudioSource audioSource;
+
     private Transform player;
     private Transform fred; // point in the object to be used as a destination
     private GameObject target;
@@ -36,6 +41,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
     void Start()
     {
         this.EnemyData = this.enemyData; 
+        audioSource = GetComponent<AudioSource>();
         rb = gameObject.GetComponent<Rigidbody>();
         fred = transform.Find("fred");
         player = GameObject.FindWithTag("Player").transform;
@@ -77,6 +83,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
             target.TryGetComponent(out IHittable victim);
             var force = 2f * (target.transform.position - transform.position).normalized;
             victim.TakeDmg(atk, force, this.gameObject);
+            Debug.Log("did damage!");
         }
 
         rAtk += Time.deltaTime;
@@ -86,6 +93,8 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
          Debug.Log(string.Format("hit {0}",source));
         hp -= (int) dmg;
         rb.velocity += force;
+
+        Scream();
     }
 
 
@@ -122,7 +131,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
         if (Vector3.Distance(transform.position, player.position) > minChaseRange) {
             MoveTo(player.position);
         }
-        else{target = player.gameObject; }
+        else{target = player.gameObject; attacking = true;}
         
         var dir = player.position - transform.position;
         fred.localPosition = new Vector3 (dir.x, 0, dir.z);
@@ -172,5 +181,13 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
 
         Vector3 d = Random.onUnitSphere;
         fred.localPosition = new Vector3 (d.x, 0, d.z);
+    }
+
+    public void Scream() {
+        audioSource.PlayOneShot(screams[Random.Range(0, screams.Count)]);
+    }
+
+    public void PlayEatingSound() {
+        audioSource.PlayOneShot(eatingSound);
     }
 }
