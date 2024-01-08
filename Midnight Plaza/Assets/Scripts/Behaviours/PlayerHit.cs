@@ -14,6 +14,6 @@ public class PlayerHit : MonoBehaviour
        
         other.gameObject.TryGetComponent(out IHittable victim);
         if(victim == null){ return; }
-        victim.TakeDmg(player.atk, transform.forward*player.atk/2, this.gameObject);
+        victim.TakeDmg(player.atk, transform.forward * player.atk/2, this.gameObject);
     }
 }

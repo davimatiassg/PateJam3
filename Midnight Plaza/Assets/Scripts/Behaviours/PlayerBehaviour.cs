@@ -11,6 +11,12 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     [SerializeField] private int maxHP;
     [SerializeField] public float atk = 1;
     [SerializeField] private int size;
+
+    [SerializeField] private AudioClip eatingSound;
+    [SerializeField] private AudioClip healSound;
+
+    private AudioSource audioSource;
+
     private Vector3 direction;
     private bool freeze = false;
 
@@ -41,6 +47,7 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
         DataTransfer.points = Scorer.Score;
         DataTransfer.people = new List<Person>();
 
+        audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         rigb = GetComponent<Rigidbody>();
     }
@@ -51,7 +58,11 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private void Update()
     {
         if (!freeze) Direction = getAxisControl();
-        if(Input.GetButtonDown("Attack")) { anim.SetTrigger("isAttacking"); }
+        if(Input.GetButtonDown("Attack")) { anim.SetTrigger("isAttacking");}
+
+        if (Input.GetKeyDown(KeyCode.F)) {
+            Die();
+        }
 
     }
 
@@ -93,5 +104,19 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
         maxHP = DataTransfer.playerMaxHp;
         atk = DataTransfer.playerAtk;
         speed = DataTransfer.playerSpd;
+    }
+
+    public void PlayEatingSound() {
+        audioSource.PlayOneShot(eatingSound);
+    }
+
+    private void OnCollisionEnter(Collision other) {
+        if (other.gameObject.tag == "Heart") {
+            audioSource.PlayOneShot(healSound);
+
+            hp += (hp >= maxHP) ? 0 : 1;
+
+            Destroy(other.gameObject);
+        }
     }
 }
