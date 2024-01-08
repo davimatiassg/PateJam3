@@ -4,11 +4,13 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class EnemyBehaviour : MonoBehaviour, IHittable
 {
-    public int hp = 10;
-    public float speed = 1f;
-    public float loadAtk = 0.5f;
+    private int hp = 10;
+    private float speed = 1f;
+    private float loadAtk = 0.5f;
     public float minChaseRange = 1f;
     public float rangeSee = 4f;
+
+    private float scale = 1f;
 
     [SerializeField] public Enemy enemyData;
 
@@ -34,6 +36,11 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
             this.enemyData = value;
             this.speed = enemyData.speed;
             this.atk = enemyData.atk;
+            this.transform.localScale = this.transform.localScale * enemyData.scale;
+            this.minChaseRange *= enemyData.scale;
+            this.hp = enemyData.hp;
+            this.loadAtk = enemyData.loadAtk;
+            this.scale = enemyData.scale;
         } 
     }
 
@@ -69,7 +76,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
     void Attack() {
 
         // WARNING: MAGIC NUMBERS WOWOWOWOWOW
-        if (target == null || Vector3.Distance(transform.position, target.transform.position) > 2f) {
+        if (target == null || Vector3.Distance(transform.position, target.transform.position) > 2f * scale) {
             rAtk = 0f;
             attacking = false;
             return;
@@ -83,7 +90,6 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
             target.TryGetComponent(out IHittable victim);
             var force = 2f * (target.transform.position - transform.position).normalized;
             victim.TakeDmg(atk, force, this.gameObject);
-            Debug.Log("did damage!");
         }
 
         rAtk += Time.deltaTime;

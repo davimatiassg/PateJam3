@@ -14,6 +14,7 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
 
     [SerializeField] private AudioClip eatingSound;
     [SerializeField] private AudioClip healSound;
+    [SerializeField] private Healthbar healthbar;
 
     private AudioSource audioSource;
 
@@ -50,6 +51,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
         audioSource = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         rigb = GetComponent<Rigidbody>();
+
+        healthbar.SetMaxValue(DataTransfer.playerMaxHp);
     }
 
     private void FixedUpdate() {
@@ -73,7 +76,6 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
 
     private void changeFacingDirection()
     {
-        
         Quaternion lookDir = new Quaternion();
         lookDir.SetLookRotation(this.direction);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, lookDir, 10f);
@@ -85,6 +87,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
         hp -= (int)dmg;
         GameDataManager.Instance.onTakeDamage?.Invoke(hp, maxHP);
         if(hp <= 0){Die();}
+
+        healthbar.UpdateValue((float) hp);
     }
 
     private void Die()
@@ -104,6 +108,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
         maxHP = DataTransfer.playerMaxHp;
         atk = DataTransfer.playerAtk;
         speed = DataTransfer.playerSpd;
+        healthbar.SetMaxValue((float) maxHP);
+        healthbar.UpdateValue((float) hp);
     }
 
     public void PlayEatingSound() {
@@ -115,6 +121,7 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
             audioSource.PlayOneShot(healSound);
 
             hp += (hp >= maxHP) ? 0 : 1;
+            healthbar.UpdateValue((float) hp);
 
             Destroy(other.gameObject);
         }

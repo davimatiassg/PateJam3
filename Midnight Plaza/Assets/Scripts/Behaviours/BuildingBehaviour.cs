@@ -41,7 +41,7 @@ public class BuildingBehaviour : MonoBehaviour, IHittable
         
         // Team Rocket
         if (hp <= 0) {
-            if(Random.value > 0.955f) {Instantiate(heart, transform.position + new Vector3(0, -0.5f, 1), Quaternion.identity);}
+            if(Random.value > 0.85f) {Instantiate(heart, transform.position + new Vector3(0, -0.2f, 1), Quaternion.identity);}
 
             audioSource.PlayOneShot(sounds[Random.Range(0, sounds.Count)]);
             rb.isKinematic = false;
