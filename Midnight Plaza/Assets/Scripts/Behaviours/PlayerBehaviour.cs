@@ -62,11 +62,6 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     {
         if (!freeze) Direction = getAxisControl();
         if(Input.GetButtonDown("Attack")) { anim.SetTrigger("isAttacking");}
-
-        if (Input.GetKeyDown(KeyCode.F)) {
-            Die();
-        }
-
     }
 
     private Vector3 getAxisControl()

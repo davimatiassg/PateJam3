@@ -164,10 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95ea943c9d55d6a4192df569b626f2e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hp: 10
-  speed: 1
-  loadAtk: 0.75
-  minChaseRange: 1.5
+  minChaseRange: 2
   rangeSee: 12
   enemyData: {fileID: 11400000, guid: 2cc475b7d2fcab04e9516e9a95fe4b2f, type: 2}
   screams:
