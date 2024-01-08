@@ -1,13 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
+
 public class SectionData : MonoBehaviour
 {
     public static SectionData Instance;
     private List<GameObject> sections = new List<GameObject>();
     private List<GameObject> buildings = new List<GameObject>();
-    void Awake()
+
+    #if UNITY_EDITOR
+    void OnEnable()
     {
         if(SectionData.Instance == null){ SectionData.Instance = this; }
         else if(SectionData.Instance != this) { Destroy(this.gameObject);  return; }
@@ -30,6 +35,7 @@ public class SectionData : MonoBehaviour
             buildings.Add(building);
         }
     }
+    #endif
 
 
     public static GameObject GetRandomSection()

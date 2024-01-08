@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -18,7 +20,8 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float randomTime = 3f;
     List<Enemy> enemies = new List<Enemy>();
 
-    private void Awake()
+    #if UNITY_EDITOR
+    private void OnEnable()
     {
         string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Enemy).Name, new[] { "Assets/Entities/Enemies" });
         enemies.Clear();
@@ -29,6 +32,8 @@ public class EnemySpawner : MonoBehaviour
             enemies.Add(enemy);
         }
     }
+    #endif
+
     private void Start() {
         setCountDown();
         playerTransform = GameObject.FindWithTag("Player").transform;

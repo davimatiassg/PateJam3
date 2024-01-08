@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
-
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 public class PersonSpawner : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class PersonSpawner : MonoBehaviour
     [SerializeField] private float randomTime = 3f;
     List<Person> people = new List<Person>();
 
-    private void Awake()
+    #if UNITY_EDITOR
+    private void OnEnable()
     {
         string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Person).Name, new[] { "Assets/Entities/People" });
         people.Clear();
@@ -27,6 +29,8 @@ public class PersonSpawner : MonoBehaviour
             people.Add(person);
         }
     }
+    #endif
+
     private void Start() {
         setCountDown();
         playerTransform = GameObject.FindWithTag("Player").transform;

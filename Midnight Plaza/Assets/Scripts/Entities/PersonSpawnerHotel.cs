@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
+#if UNITY_EDITOR
+    using UnityEditor;
+#endif
 
 public class PersonSpawnerHotel : MonoBehaviour
 {
@@ -12,7 +14,8 @@ public class PersonSpawnerHotel : MonoBehaviour
     [SerializeField] private Transform peopleParent;
     List<Person> people = new List<Person>();
 
-    void Awake() 
+    #if UNITY_EDITOR
+    void OnEnable() 
     {
         string[] assetNames = AssetDatabase.FindAssets("t:" + typeof(Person).Name, new[] { "Assets/Entities/People" });
         people.Clear();
@@ -23,6 +26,7 @@ public class PersonSpawnerHotel : MonoBehaviour
             people.Add(person);
         }
     }
+    #endif
 
     // Start is called before the first frame update
     void Start()
