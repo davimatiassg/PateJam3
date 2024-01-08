@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: Enemy
   m_EditorClassIdentifier: 
   sprite: {fileID: 0}
-  atk: 10
+  atk: 1
   speed: 2
   scoreValue: 10

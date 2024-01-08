@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - SectionData
+  - Heart
   layers:
   - Default
   - TransparentFX

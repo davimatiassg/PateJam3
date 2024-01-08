@@ -6,8 +6,7 @@ public class CityBuilder : MonoBehaviour
 {
     public float spacing = 2f;
     public float density = 0.5f; //0 to 1
-
-    [SerializeField] private GameObject tasukete;
+    
     [SerializeField] private GameObject building;
     private Transform player;
     private Transform buildings;
