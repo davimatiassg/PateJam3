@@ -20,7 +20,7 @@ public class Menu : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) {
+        if (Input.GetButtonDown("Menu")) {
 
             player.ToggleFreeze();
             HotelMenu = !HotelMenu;
@@ -29,7 +29,7 @@ public class Menu : MonoBehaviour
 
         }
 
-        if (Input.GetKeyDown(KeyCode.E)) {
+        if (Input.GetButtonDown("Pause")) {
             TogglePause();
         }
     }

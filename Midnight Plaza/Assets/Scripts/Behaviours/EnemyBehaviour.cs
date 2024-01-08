@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+[RequireComponent(typeof(BoxCollider))]
 public class EnemyBehaviour : MonoBehaviour, IHittable
 {
     public int hp = 10;
@@ -83,6 +83,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
     }
 
     public void TakeDmg(float dmg, Vector3 force, GameObject source) {
+         Debug.Log(string.Format("hit {0}",source));
         hp -= (int) dmg;
         rb.velocity += force;
     }
@@ -121,6 +122,7 @@ public class EnemyBehaviour : MonoBehaviour, IHittable
         if (Vector3.Distance(transform.position, player.position) > minChaseRange) {
             MoveTo(player.position);
         }
+        else{target = player.gameObject; }
         
         var dir = player.position - transform.position;
         fred.localPosition = new Vector3 (dir.x, 0, dir.z);

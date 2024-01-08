@@ -9,10 +9,9 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     [SerializeField] private float speed;
     [SerializeField] private int hp;
     [SerializeField] private int maxHP;
-    [SerializeField] private float atk;
+    [SerializeField] public float atk = 1;
     [SerializeField] private int size;
-    [SerializeField] private Vector3 direction;
-
+    private Vector3 direction;
     private bool freeze = false;
 
     private Animator anim;
@@ -52,6 +51,8 @@ public class PlayerBehaviour : MonoBehaviour, IHittable
     private void Update()
     {
         if (!freeze) Direction = getAxisControl();
+        if(Input.GetButtonDown("Attack")) { anim.SetTrigger("isAttacking"); }
+
     }
 
     private Vector3 getAxisControl()
