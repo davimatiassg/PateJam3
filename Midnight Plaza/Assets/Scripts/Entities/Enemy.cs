@@ -8,8 +8,11 @@ using UnityEditor;
 [CreateAssetMenu(fileName = "Enemy", menuName = "Entities/new Enemy (caraca isso é muito legal)", order = 0)]
 public class Enemy : ScriptableObject, IValuable {
     public Sprite sprite;
+    public int hp;
     public float atk;
+    public float loadAtk;
     public float speed;
+    public float scale;
     //public Sprite worriedSprite;
     
     [SerializeField] private int scoreValue;

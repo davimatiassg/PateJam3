@@ -32,7 +32,7 @@ public class Scorer : MonoBehaviour
     }
 
     public void Start() {
-        score = 100;
+        score = 0;
         UpdateScoreText();
     }
 
